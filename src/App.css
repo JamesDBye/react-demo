@@ -182,3 +182,17 @@
     border-right-color: var(--border);
   }
 }
+
+.project-table {
+    border-collapse: collapse;
+}
+
+.project-table th,
+.project-table td {
+    border: 1px solid black;
+    padding: 6px 10px;
+}
+
+.project-table th {
+    background-color: #f0f0f0;
+}

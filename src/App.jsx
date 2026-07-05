@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import ProjectTable from './components/ProjectTable'
 
 function App() {
   const [projects, setProjects] = useState([])
@@ -11,27 +12,7 @@ function App() {
                     })
                 }, [])
   return (
-          <table border="1">
-            <thead>
-              <tr>
-                <th>Project Code</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-              </tr>
-            </thead>
-
-            <tbody>
-
-              {projects.map(project => (
-                <tr key={project.projectCode}>
-                  <td>{project.projectCode}</td>
-                  <td>{project.startDate}</td>
-                  <td>{project.endDate ?? "Open"}</td>
-                </tr>
-              ))}
-
-            </tbody>
-          </table>
+          <ProjectTable projects={projects} />
   )
 }
 
