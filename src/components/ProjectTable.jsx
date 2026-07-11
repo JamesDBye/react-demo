@@ -1,4 +1,4 @@
-function ProjectTable({ projects, onProjectSelected }) {
+function ProjectTable({ projects, selectedProject,onProjectSelected }) {
     return (
         <table className="project-table">
             <thead>
@@ -11,7 +11,15 @@ function ProjectTable({ projects, onProjectSelected }) {
 
             <tbody>
                 {projects.map(project => (
-                    <tr key={project.projectCode} onClick={() => onProjectSelected(project)}>
+                    <tr
+                        key={project.projectCode}
+                        onClick={() => onProjectSelected(project)}
+                        className={
+                            project.projectCode === selectedProject?.projectCode
+                                ? "selected-row"
+                                : ""
+                        }
+                    >
                         <td>{project.projectCode}</td>
                         <td>{project.startDate}</td>
                         <td>{project.endDate ?? "Open"}</td>

@@ -202,7 +202,12 @@ JSX looks like HTML but allows JavaScript inside braces.
 
 ------------------------------------------------------------------------
 
-Chapter 10 – State
+Chapter 10 – Props
+
+tbc
+------------------------------------------------------------------------
+
+Chapter 11 – State
 
     const [projects, setProjects] = useState([]);
 
@@ -224,6 +229,23 @@ Think:
   Run this code once when the component first appears.
 
 ------------------------------------------------------------------------
+
+Chapter 12 - Optional Chaining (?.)
+
+Purpose
+
+Safely access a property when an object might be null or undefined.
+
+Example:
+
+    selectedProject?.projectCode
+
+Which means if selectedProject exists, return its projectCode; otherwise return undefined.
+
+------------------------------------------------------------------------
+
+
+
 
 Crib Sheet
 

@@ -196,3 +196,7 @@
 .project-table th {
     background-color: #f0f0f0;
 }
+
+.selected-row {
+    background-color: lightblue;
+}

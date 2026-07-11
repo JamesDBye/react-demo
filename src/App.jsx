@@ -27,6 +27,7 @@ function App() {
       */}
       <ProjectTable
         projects={projects}
+        selectedProject={selectedProject}
         onProjectSelected={setSelectedProject}
       />
       {/* beneath the table, display the selected project code or "None" if no project is selected */}
