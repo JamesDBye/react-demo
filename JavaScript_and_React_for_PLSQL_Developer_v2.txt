@@ -1,0 +1,250 @@
+JavaScript & React for a PL/SQL Developer (Version 2)
+
+Table of Contents
+
+Part 1 – JavaScript Fundamentals
+
+1.  Variables
+2.  Functions
+3.  Functions as First-Class Values
+4.  Arrow Functions
+5.  Callbacks
+6.  Arrays and Objects
+7.  Array Methods (forEach, map, filter, find)
+
+Part 2 – React Fundamentals
+
+8.  Components
+9.  JSX
+10. Props
+11. State (useState)
+12. Effects (useEffect)
+
+------------------------------------------------------------------------
+
+Chapter 2 – Functions
+
+PL/SQL Comparison
+
+PL/SQL
+
+    FUNCTION GetTax(p_salary NUMBER)
+    RETURN NUMBER
+    IS
+    BEGIN
+        RETURN p_salary * 0.2;
+    END;
+
+JavaScript
+
+    function getTax(salary) {
+        return salary * 0.2;
+    }
+
+A function can also be stored inside a variable:
+
+    const getTax = function(salary) {
+        return salary * 0.2;
+    };
+
+Mental Model
+
+A JavaScript variable can hold:
+
+-   a number
+-   a string
+-   an array
+-   an object
+-   a function
+
+Calling getTax refers to the function.
+
+Calling getTax() executes it.
+
+------------------------------------------------------------------------
+
+Chapter 3 – Functions as Values
+
+Functions are “first-class values”.
+
+You can:
+
+1.  Store them in variables.
+2.  Pass them into other functions.
+3.  Return them from other functions.
+
+Example:
+
+    function runTwice(action) {
+        action();
+        action();
+    }
+
+    const sayHi = () => console.log("Hi!");
+
+    runTwice(sayHi);
+
+Common Beginner Question
+
+Where did action come from?
+
+Answer: it is simply a parameter. Unlike PL/SQL, JavaScript parameters
+can themselves be functions.
+
+------------------------------------------------------------------------
+
+Chapter 4 – Arrow Functions
+
+Traditional:
+
+    function add(a,b){
+        return a+b;
+    }
+
+Arrow:
+
+    const add = (a,b) => {
+        return a+b;
+    };
+
+Implicit Return
+
+    const square = x => x * x;
+
+Equivalent to:
+
+    const square = x => {
+        return x * x;
+    };
+
+Rule
+
+-   One expression → implicit return.
+-   Braces {} → write return if you want a value returned.
+
+Common Mistake
+
+    const createPerson = () => { name: "James" };
+
+returns undefined.
+
+Correct:
+
+    const createPerson = () => ({ name: "James" });
+
+------------------------------------------------------------------------
+
+Chapter 5 – Callbacks
+
+A callback is:
+
+  A function passed to another function so that the other function can
+  call it later.
+
+Example:
+
+    const names = ["Alex","Theo","John"];
+
+    names.forEach(nephew => {
+        console.log(`Hello ${nephew}`);
+    });
+
+Where did nephew come from?
+
+You declared it as the callback parameter.
+
+Internally, forEach() effectively does:
+
+    callback("Alex");
+    callback("Theo");
+    callback("John");
+
+------------------------------------------------------------------------
+
+Chapter 6 – Array Methods
+
+forEach()
+
+Use when you want to perform an action.
+
+map()
+
+Use when you want to transform one array into another.
+
+    const greetings = names.map(name => `Hello ${name}`);
+
+filter()
+
+Returns items matching a condition.
+
+    const longNames = names.filter(name => name.length > 4);
+
+find()
+
+Returns the first matching item.
+
+    const theo = names.find(name => name === "Theo");
+
+------------------------------------------------------------------------
+
+Chapter 8 – React Components
+
+A React functional component is simply a JavaScript function that
+returns JSX.
+
+------------------------------------------------------------------------
+
+Chapter 9 – JSX
+
+JSX looks like HTML but allows JavaScript inside braces.
+
+    <p>{projects[0].projectCode}</p>
+
+------------------------------------------------------------------------
+
+Chapter 10 – State
+
+    const [projects, setProjects] = useState([]);
+
+React remembers the current value of projects.
+
+Call setProjects() to replace it.
+
+------------------------------------------------------------------------
+
+Chapter 11 – useEffect
+
+    useEffect(() => {
+        fetch(...)
+            .then(...)
+    }, []);
+
+Think:
+
+  Run this code once when the component first appears.
+
+------------------------------------------------------------------------
+
+Crib Sheet
+
+✓ Variables can contain functions.
+
+✓ functionName = the function.
+
+✓ functionName() = execute it.
+
+✓ Arrow functions are shorter syntax.
+
+✓ return is only omitted for a single expression.
+
+✓ forEach() performs actions.
+
+✓ map() creates a new array.
+
+✓ Callback parameter names are chosen by you.
+
+✓ React components are JavaScript functions.
+
+✓ useState() stores data between renders.
+
+✓ useEffect() performs side effects.
