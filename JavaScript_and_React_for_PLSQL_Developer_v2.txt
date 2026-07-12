@@ -9,16 +9,25 @@ Part 1 – JavaScript Fundamentals
 3.  Functions as First-Class Values
 4.  Arrow Functions
 5.  Callbacks
-6.  Arrays and Objects
-7.  Array Methods (forEach, map, filter, find)
+6.  Array Methods (forEach, map, filter, find)
+7.  Async / Await
 
 Part 2 – React Fundamentals
 
-8.  Components
-9.  JSX
-10. Props
-11. State (useState)
-12. Effects (useEffect)
+1.  Components
+2.  JSX
+3. Props
+4. State (useState)
+5. Effects (useEffect)
+
+Part 3 - JavaScript Modules
+
+1.  export and import
+
+------------------------------------------------------------------------
+Part 1 – JavaScript Fundamentals
+
+Chapter 1 - variables
 
 ------------------------------------------------------------------------
 
@@ -187,14 +196,57 @@ Returns the first matching item.
 
 ------------------------------------------------------------------------
 
-Chapter 8 – React Components
+Chapter 7 - Async / Await
 
-A React functional component is simply a JavaScript function that
-returns JSX.
+    async function loadProjects() {
+        const data = await getProjects();
+    }
+
+The purpose is to write asynchronous code that reads almost like synchronous code.
+That is to say, "Write code that does multiple things at once in the background, 
+ but structure it so it's as easy to read and follow as a simple, step-by-step checklist."
+For example - imagine if a browser was written so that it froze whilst a large file was being downloaded (synchronous),
+instead modern browsers allow users to initiate the download of a large file (asynchronously) 
+and allow the user to do other things at the same time - such as clicking on a hyperlink and navigating elsewhere.
+
+In react we may have
+
+    const data = await getProjects();
+
+    setProjects(data);
+
+important - await can only be used inside an async function.
+------------------------------------------------------------------------
+
+Part 2 - React Fundamentals
 
 ------------------------------------------------------------------------
 
-Chapter 9 – JSX
+
+Chapter 1 – React Components
+
+A React functional component is simply a JavaScript function that
+returns JSX. The typical structure looks like 
+
+Imports
+
+function MyComponent() {
+
+    // State
+
+    // Effects
+
+    // Event handlers / helper functions
+
+    // JSX returned to React
+
+}
+
+export default MyComponent
+
+------------------------------------------------------------------------
+
+Chapter 2 – JSX
 
 JSX looks like HTML but allows JavaScript inside braces.
 
@@ -202,12 +254,12 @@ JSX looks like HTML but allows JavaScript inside braces.
 
 ------------------------------------------------------------------------
 
-Chapter 10 – Props
+Chapter 3 – Props
 
 tbc
 ------------------------------------------------------------------------
 
-Chapter 11 – State
+Chapter 4 – State
 
     const [projects, setProjects] = useState([]);
 
@@ -217,7 +269,7 @@ Call setProjects() to replace it.
 
 ------------------------------------------------------------------------
 
-Chapter 11 – useEffect
+Chapter 5 – useEffect
 
     useEffect(() => {
         fetch(...)
@@ -262,7 +314,7 @@ and if a dependency has changed, it runs the effect.
 
 ------------------------------------------------------------------------
 
-Chapter 12 - Optional Chaining (?.)
+Chapter 6 - Optional Chaining (?.)
 
 Purpose
 
@@ -276,8 +328,17 @@ Which means if selectedProject exists, return its projectCode; otherwise return 
 
 ------------------------------------------------------------------------
 
+Part 3 - JavaScript Modules
 
+------------------------------------------------------------------------
 
+Chapter 1 – import / export
+
+export - Makes a function or variable available to other JavaScript files.
+
+    export function getProjects() {}
+
+... Other files may import and use getProjects().
 
 Crib Sheet
 

@@ -2,22 +2,25 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import ProjectTable from './components/ProjectTable'
 import TaskTable from './components/TaskTable'
+import { getProjects } from './services/api'
 
 function App() {
   // State variable containing the array of projects returned by the backend.
   const [projects, setProjects] = useState([])
   
-  // Holds the currently selected project object.
-  // Initially null because no project has been selected yet. Later..
-  // // { projectCode: "Woody", startDate: "...", endDate: "..." }
+  // Holds the currently selected project.
+  // Initially null until the user selects a project.
   const [selectedProject, setSelectedProject] = useState(null)
   useEffect(() => {
-                  fetch("http://localhost:8080/windmill")
-                    .then(response => response.json())
-                    .then(data => {
-                      setProjects(data)
-                    })
-                }, [])
+                    // async keyword needed because loadProjects uses await 
+                    async function loadProjects() {
+                        const data = await getProjects();
+                        setProjects(data);
+                    }
+                  //immediately invoke the async function to load projects from the backend.
+                  // This is a common pattern for using async functions inside useEffect.
+                  loadProjects();
+  },[]);
   return (
     <>
       {/* Pass the projects state variable as a prop to the ProjectTable component 
