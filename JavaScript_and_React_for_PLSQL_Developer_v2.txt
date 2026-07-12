@@ -228,6 +228,38 @@ Think:
 
   Run this code once when the component first appears.
 
+There is also useeffect with dependencies
+
+    useEffect(() => {
+        // code to execute
+    }, [selectedProject])
+
+Similar to 
+    CREATE OR REPLACE TRIGGER trg_project_change
+    AFTER UPDATE OF project_code ON some_table
+    FOR EACH ROW
+    BEGIN
+        LoadTasks;
+    END;
+
+Conceptually similar to a database trigger.
+A database trigger executes when data changes in Oracle.
+A useEffect executes when a piece of React state or a prop changes.
+
+Key difference
+
+* Oracle trigger → watches database data
+* useEffect → watches React component state/props
+
+* useState is a bit like a package variable that React manages.
+* setState (e.g. setSelectedProject) is the only supported way to change it.
+* useEffect is then React’s mechanism for saying, “Now that this state has changed, execute this additional logic.”
+
+
+Technically, useEffect doesn’t watch for changes in the way a trigger continuously watches a table. 
+React re-runs the component after state changes, compares the dependency array with its previous values, 
+and if a dependency has changed, it runs the effect. 
+
 ------------------------------------------------------------------------
 
 Chapter 12 - Optional Chaining (?.)

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import ProjectTable from './components/ProjectTable'
+import TaskTable from './components/TaskTable'
 
 function App() {
   // State variable containing the array of projects returned by the backend.
@@ -30,11 +31,9 @@ function App() {
         selectedProject={selectedProject}
         onProjectSelected={setSelectedProject}
       />
-      {/* beneath the table, display the selected project code or "None" if no project is selected */}
-      <p>
-        Selected Project:{' '}
-        {selectedProject ? selectedProject.projectCode : 'None'}
-      </p>
+
+      <TaskTable />
+
     </>
   )
 }
