@@ -200,3 +200,12 @@
 .selected-row {
     background-color: lightblue;
 }
+
+.task-table {
+    background-color: lightgray;
+}
+
+.task-table td {
+    border: 1px solid black;
+    padding: 6px 10px;
+}

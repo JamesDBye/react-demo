@@ -2,32 +2,101 @@ JavaScript & React for a PL/SQL Developer (Version 2)
 
 Table of Contents
 
-Part 1 – JavaScript Fundamentals
+Part 1
+JavaScript Fundamentals
 
-1.  Variables
-2.  Functions
-3.  Functions as First-Class Values
-4.  Arrow Functions
-5.  Callbacks
-6.  Array Methods (forEach, map, filter, find)
-7.  Async / Await
+1 Variables
+2 Functions
+3 Functions as Values
+4 Arrow Functions
+5 Callbacks
+6 Arrays
+7 Objects
+8 Array Methods
+9 Async/Await
+10 Modules (import/export)
+11 - Conditional (ternary) operator.
 
-Part 2 – React Fundamentals
+Part 2
+React Fundamentals
 
-1.  Components
-2.  JSX
-3. Props
-4. State (useState)
-5. Effects (useEffect)
+Components
+JSX
+Props
+State
+Effects
+Rendering Lists
+Event Handling
 
-Part 3 - JavaScript Modules
-
-1.  export and import
 
 ------------------------------------------------------------------------
 Part 1 – JavaScript Fundamentals
 
 Chapter 1 - variables
+
+A variable is simply a named piece of memory that stores a value.
+
+Think of it as a labelled box.
+
+Variable Name
+     │
+     ▼
+┌───────────┐
+│  Value    │
+└───────────┘
+
+Unlike PL/SQL, JavaScript variables do not have a fixed data type.
+The same kind of variable can hold a number, a string, an array, an object or even a function.
+
+    const age = 55;
+    console.log(age);
+
+    const firstName = "James";
+    console.log(`Hello ${firstName}`);
+
+    //Array
+
+    const nephews = ["Alex", "Theo", "John"];
+
+nephews
+    │
+    ▼
+
+┌───────┬───────┬───────┐
+│ Alex  │ Theo  │ John  │
+└───────┴───────┴───────┘
+    0       1       2
+
+    //retrieve a value
+    console.log(nephews[1]);
+
+    //object
+
+    const project = {
+        projectCode: "Windmill",
+        startDate: "2014-01-01",
+        endDate: "2024-12-31"
+    };
+
+project
+    │
+    ▼
+
+projectCode → Windmill
+
+startDate  → 2014-01-01
+
+endDate    → 2024-12-31
+
+    // retrieve a property
+    console.log(project.projectCode);
+
+-- A pl/sql similar concept is a RECORD
+TYPE project_rec IS RECORD (
+    project_code VARCHAR2(20),
+    start_date   DATE,
+    end_date     DATE
+);
 
 ------------------------------------------------------------------------
 
@@ -50,29 +119,20 @@ JavaScript
         return salary * 0.2;
     }
 
+------------------------------------------------------------------------
+
+Chapter 3 - Functions as Values
+
 A function can also be stored inside a variable:
 
     const getTax = function(salary) {
         return salary * 0.2;
     };
 
-Mental Model
-
-A JavaScript variable can hold:
-
--   a number
--   a string
--   an array
--   an object
--   a function
 
 Calling getTax refers to the function.
 
 Calling getTax() executes it.
-
-------------------------------------------------------------------------
-
-Chapter 3 – Functions as Values
 
 Functions are “first-class values”.
 
@@ -131,8 +191,30 @@ Rule
 -   One expression → implicit return.
 -   Braces {} → write return if you want a value returned.
 
-Common Mistake
+!! common mistake
 
+    const square = x => {
+        x * x;
+    };
+
+... would return undefined. You cannot omit the RETURN keyword if {} braces are used.
+    const square = x => x * x;
+... is fine because there are no {} so return not required.
+
+  Arrow function
+        │
+        ▼
+   Using braces?
+      /     \
+    No       Yes
+    │         │
+Implicit    Write
+return      return yourself
+
+Braces {} mean “this is a block of statements.”
+
+Another common Mistake
+-----------------------
     const createPerson = () => { name: "James" };
 
 returns undefined.
@@ -170,7 +252,22 @@ Internally, forEach() effectively does:
 
 ------------------------------------------------------------------------
 
-Chapter 6 – Array Methods
+Chapter 6 – Arrays
+
+    const names = [
+        "Alex",
+        "Theo",
+        "John"
+    ];
+
+Arrays contain ordered values.
+Index starts at zero.
+names[0]
+   ↓
+"Alex"
+
+Array Methods
+-------------
 
 forEach()
 
@@ -216,6 +313,36 @@ In react we may have
     setProjects(data);
 
 important - await can only be used inside an async function.
+
+------------------------------------------------------------------------
+
+Chapter 10 – import / export
+
+export - Makes a function or variable available to other JavaScript files.
+
+    export function getProjects() {}
+
+... Other files may import and use getProjects().
+
+------------------------------------------------------------------------
+
+Chapter 11 - Conditional (ternary) operator.
+
+condition ? valueIfTrue : valueIfFalse
+
+For example
+
+    task.completed ? "✓" : "○"
+
+... meaning if task.completed is true
+
+display ✓
+
+otherwise
+
+display ○
+
+
 ------------------------------------------------------------------------
 
 Part 2 - React Fundamentals
@@ -312,6 +439,18 @@ Technically, useEffect doesn’t watch for changes in the way a trigger continuo
 React re-runs the component after state changes, compares the dependency array with its previous values, 
 and if a dependency has changed, it runs the effect. 
 
+Multiple useEffects
+--------------------
+
+A component can have more than one useEffect. This is encouraged when each effect has a different 
+responsibility. For example, from the IPO prototype
+
+Effect 1
+Load projects when the page starts.
+
+Effect 2
+Load tasks when the selected project changes.
+
 ------------------------------------------------------------------------
 
 Chapter 6 - Optional Chaining (?.)
@@ -326,40 +465,8 @@ Example:
 
 Which means if selectedProject exists, return its projectCode; otherwise return undefined.
 
-------------------------------------------------------------------------
+Chapter 7 - State ownership
 
-Part 3 - JavaScript Modules
-
-------------------------------------------------------------------------
-
-Chapter 1 – import / export
-
-export - Makes a function or variable available to other JavaScript files.
-
-    export function getProjects() {}
-
-... Other files may import and use getProjects().
-
-Crib Sheet
-
-✓ Variables can contain functions.
-
-✓ functionName = the function.
-
-✓ functionName() = execute it.
-
-✓ Arrow functions are shorter syntax.
-
-✓ return is only omitted for a single expression.
-
-✓ forEach() performs actions.
-
-✓ map() creates a new array.
-
-✓ Callback parameter names are chosen by you.
-
-✓ React components are JavaScript functions.
-
-✓ useState() stores data between renders.
-
-✓ useEffect() performs side effects.
+* A component should own the state that it is responsible for.
+* Child components receive state via props.
+* Child components notify parents of changes via callback functions (such as onProjectSelected).
