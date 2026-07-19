@@ -15,7 +15,7 @@ function App() {
   // State variable containing the array of tasks returned by the backend.
   const [tasks, setTasks] = useState([]);
 
-
+  // useEffect hook to load projects when the component mounts.
   useEffect(() => {
                     // async keyword needed because loadProjects uses await 
                     async function loadProjects() {

@@ -266,8 +266,16 @@ names[0]
    ↓
 "Alex"
 
-Array Methods
--------------
+------------------------------------------------------------------------
+
+Chapter 7 - Objects
+
+
+------------------------------------------------------------------------
+
+
+Chapter 8 - Array Methods
+
 
 forEach()
 
@@ -291,9 +299,27 @@ Returns the first matching item.
 
     const theo = names.find(name => name === "Theo");
 
+findIndex()
+
+Returns the index of the first array value that meets a condition
+
+    const nextTaskIndex = tasks.findIndex(task => !task.completed);
+
+... if task is an object with description and completed fields, looking like this
+
+index - description - completed
+----------------------------------
+[0]   - create ref data - completed
+[1]   - add customers   - completed
+[2]   - review scaleback settings - incomplete
+[3]   - apply scaleback reductions - incomplete
+
+... then nextTaskIndex = 2, which is the first incomplete task (!task.completed)
+
+
 ------------------------------------------------------------------------
 
-Chapter 7 - Async / Await
+Chapter 9 - Async / Await
 
     async function loadProjects() {
         const data = await getProjects();

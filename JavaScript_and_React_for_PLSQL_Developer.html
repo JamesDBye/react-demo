@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript & React for a PL/SQL Developer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        nav {
+            background: #f8f9fa;
+            padding: 20px 40px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .toc {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .toc h3 {
+            color: #667eea;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            grid-column: 1 / -1;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .toc li {
+            padding: 5px 0;
+        }
+
+        .toc a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .toc a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 40px;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        .part-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            color: #667eea;
+            font-size: 1.2em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        pre {
+            background: #f5f5f5;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #d63384;
+        }
+
+        pre code {
+            color: #333;
+        }
+
+        .diagram {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .important {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .important strong {
+            color: #856404;
+        }
+
+        .note {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .note strong {
+            color: #0c5460;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-block {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+
+        .comparison-block h4 {
+            margin-top: 0;
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .toc {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+        }
+
+        .divider {
+            border: none;
+            border-top: 2px solid #e0e0e0;
+            margin: 40px 0;
+        }
+
+        footer {
+            background: #f8f9fa;
+            padding: 20px 40px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>JavaScript & React for a PL/SQL Developer</h1>
+            <p>Version 2</p>
+        </header>
+
+        <nav>
+            <div class="toc">
+                <h3>Table of Contents</h3>
+                <div>
+                    <h4 style="color: #667eea; font-size: 1em;">Part 1: JavaScript Fundamentals</h4>
+                    <ul>
+                        <li>1. Variables</li>
+                        <li>2. Functions</li>
+                        <li>3. Functions as Values</li>
+                        <li>4. Arrow Functions</li>
+                        <li>5. Callbacks</li>
+                        <li>6. Arrays</li>
+                        <li>7. Objects</li>
+                        <li>8. Array Methods</li>
+                        <li>9. Async/Await</li>
+                        <li>10. Modules (import/export)</li>
+                        <li>11. Conditional (ternary) operator</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: #667eea; font-size: 1em;">Part 2: React Fundamentals</h4>
+                    <ul>
+                        <li>1. React Components</li>
+                        <li>2. JSX</li>
+                        <li>3. Props</li>
+                        <li>4. State</li>
+                        <li>5. Effects (useEffect)</li>
+                        <li>6. Optional Chaining (?.)</li>
+                        <li>7. State Ownership</li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            <!-- PART 1 -->
+            <div class="part-header">Part 1: JavaScript Fundamentals</div>
+
+            <section>
+                <h2>Chapter 1: Variables</h2>
+                
+                <p>A variable is simply a named piece of memory that stores a value.</p>
+                
+                <p><strong>Think of it as a labelled box:</strong></p>
+                
+                <div class="diagram">Variable Name
+     │
+     ▼
+┌───────────┐
+│  Value    │
+└───────────┘</div>
+
+                <p>Unlike PL/SQL, JavaScript variables do not have a fixed data type. The same kind of variable can hold a number, a string, an array, an object or even a function.</p>
+
+                <h3>Examples</h3>
+
+                <p><strong>Simple variable:</strong></p>
+                <pre><code>const age = 55;
+console.log(age);</code></pre>
+
+                <pre><code>const firstName = "James";
+console.log(`Hello ${firstName}`);</code></pre>
+
+                <p><strong>Array:</strong></p>
+                <pre><code>const nephews = ["Alex", "Theo", "John"];</code></pre>
+
+                <div class="diagram">nephews
+    │
+    ▼
+
+┌───────┬───────┬───────┐
+│ Alex  │ Theo  │ John  │
+└───────┴───────┴───────┘
+    0       1       2</div>
+
+                <pre><code>// retrieve a value
+console.log(nephews[1]);</code></pre>
+
+                <p><strong>Object:</strong></p>
+                <pre><code>const project = {
+    projectCode: "Windmill",
+    startDate: "2014-01-01",
+    endDate: "2024-12-31"
+};</code></pre>
+
+                <div class="diagram">project
+    │
+    ▼
+
+projectCode → Windmill
+
+startDate  → 2014-01-01
+
+endDate    → 2024-12-31</div>
+
+                <pre><code>// retrieve a property
+console.log(project.projectCode);</code></pre>
+
+                <h3>PL/SQL Equivalent</h3>
+                <p>A similar concept in PL/SQL is a <strong>RECORD</strong>:</p>
+                <pre><code>TYPE project_rec IS RECORD (
+    project_code VARCHAR2(20),
+    start_date   DATE,
+    end_date     DATE
+);</code></pre>
+            </section>
+
+            <hr class="divider">
+
+            <section>
+                <h2>Chapter 2: Functions</h2>
+                
+                <h3>PL/SQL Comparison</h3>
+
+                <div class="comparison">
+                    <div class="comparison-block">
+                        <h4>PL/SQL</h4>
+                        <pre><code>FUNCTION GetTax(p_salary NUMBER)
+RETURN NUMBER
+IS
+BEGIN
+    RETURN p_salary * 0.2;
+END;</code></pre>
+                    </div>
+                    <div class="comparison-block">
+                        <h4>JavaScript</h4>
+                        <pre><code>function getTax(salary) {
+    return salary * 0.2;
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <section>
+                <h2>Chapter 3: Functions as Values</h2>
+                
+                <p>A function can also be stored inside a variable:</p>
+                
+                <pre><code>const getTax = function(salary) {
+    return salary * 0.2;
+};</code></pre>
+
+                <p><strong>Key Distinction:</strong></p>
+                <ul>
+                    <li>Calling <code>getTax</code> refers to the function</li>
+                    <li>Calling <code>getTax()</code> executes it</li>
+                </ul>
+
+                <h3>First-Class Functions</h3>
+                <p>Functions are "first-class values". You can:</p>
+                <ol>
+                    <li>Store them in variables</li>
+                    <li>Pass them into other functions</li>
+                    <li>Return them from other functions</li>
+                </ol>
+
+                <h3>Example</h3>
+                <pre><code>function runTwice(action) {
+    action();
+    action();
+}
+
+const sayHi = () => console.log("Hi!");
+
+runTwice(sayHi);</code></pre>
+
+                <div class="note">
+                    <strong>Common Beginner Question:</strong> Where did <code>action</code> come from?
+                    <p><strong>Answer:</strong> It is simply a parameter. Unlike PL/SQL, JavaScript parameters can themselves be functions.</p>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <section>
+                <h2>Chapter 4: Arrow Functions</h2>
+                
+                <h3>Traditional vs Arrow Syntax</h3>
+
+                <div class="comparison">
+                    <div class="comparison-block">
+                        <h4>Traditional</h4>
+                        <pre><code>function add(a,b){
+    return a+b;
+}</code></pre>
+                    </div>
+                    <div class="comparison-block">
+                        <h4>Arrow</h4>
+                        <pre><code>const add = (a,b) => {
+    return a+b;
+};</code></pre>
+                    </div>
+                </div>
+
+                <h3>Implicit Return</h3>
+                <pre><code>const square = x => x * x;</code></pre>
+
+                <p>Equivalent to:</p>
+                <pre><code>const square = x => {
+    return x * x;
+};</code></pre>
+
+                <h3>Rule</h3>
+                <ul>
+                    <li><strong>One expression</strong> → implicit return</li>
+                    <li><strong>Braces {}</strong> → write return if you want a value returned</li>
+                </ul>
+
+                <div class="diagram">  Arrow function
+        │
+        ▼
+   Using braces?
+      /     \
+    No       Yes
+    │         │
+Implicit    Write
+return      return yourself</div>
+
+                <p><code>Braces {} mean "this is a block of statements."</code></p>
+
+                <h3>Common Mistake #1</h3>
+                <pre><code>const square = x => {
+    x * x;
+};</code></pre>
+
+                <div class="important">
+                    <strong>Problem:</strong> This returns <code>undefined</code>. You cannot omit the RETURN keyword if <code>{}</code> braces are used.
+                </div>
+
+                <pre><code>const square = x => x * x;</code></pre>
+                <p>This is fine because there are no braces, so return is not required.</p>
+
+                <h3>Common Mistake #2</h3>
+                <pre><code>const createPerson = () => { name: "James" };</code></pre>
+
+                <div class="important">
+                    <strong>Problem:</strong> This returns <code>undefined</code>.
+                </div>
+
+                <p><strong>Correct:</strong></p>
+                <pre><code>const createPerson = () => ({ name: "James" });</code></pre>
+            </section>
+
+            <hr class="divider">
+
+            <section>
+                <h2>Chapter 5: Callbacks</h2>
+                
+                <h3>Definition</h3>
+                <p>A <strong>callback</strong> is a function passed to another function so that the other function can call it later.</p>
+
+                <h3>Example</h3>
+                <pre><code>const names = ["Alex","Theo","John"];
+
+names.forEach(nephew => {
+    console.log(`Hello ${nephew}`);
+});</code></pre>
+
+                <div class="note">
+                    <strong>Question:</strong> Where did <code>nephew</code> come from?
+                    <p><strong>Answer:</strong> You declared it as the callback parameter.</p>
+                </div>
+
+                <p>Internally, <code>forEach()</code> effectively does:</p>
+                <pre><code>callback("Alex");
+callback("Theo");
+callback("John");</code></pre>
+            </section>
+
+            <hr class="divider">
+
+            <section>
+                <h2>Chapter 6: Arrays</h2>
+                
+                <pre><code>const names = [
+    "Alex",
+    "Theo",
+    "John"
+];</code></pre>
+
+                <ul>
+                    <li>Arrays contain ordered values</li>
+                    <li>Index starts at zero</li>
+                    <li><code>names[0]</code> returns <code>"Alex"</code></li>
+                </ul>
+
+                <h3>Array Methods</h3>
+
+                <h4>forEach()</h4>
+                <p>Use when you want to perform an action.</p>
+
+                <h4>map()</h4>
+                <p>Use when you want to transform one array into another.</p>
+                <pre><code>const greetings = names.map(name => `Hello ${name}`);</code></pre>
+
+                <h4>filter()</h4>
+                <p>Returns items matching a condition.</p>
+                <pre><code>const longNames = names.filter(name => name.length > 4);</code></pre>
+
+                <h4>find()</h4>
+                <p>Returns the first matching item.</p>
+                <pre><code>const theo = names.find(name => name === "Theo");</code></pre>
+            </section>
+
+            <hr class="divider">
+
+            <section>
+                <h2>Chapter 7: Async/Await</h2>
+                
+                <pre><code>async function loadProjects() {
+    const data = await getProjects();
+}</code></pre>
+
+                <p>The purpose is to write asynchronous code that reads almost like synchronous code. That is to say, "Write code that does multiple things at once in the background, but structure it so it's as easy to read and follow as a simple, step-by-step checklist."</p>
+
+                <p><strong>Example:</strong> Imagine if a browser froze whilst a large file was being downloaded (synchronous). Instead, modern browsers allow users to initiate the download of a large file (asynchronously) and allow the user to do other things at the same time—such as clicking on a hyperlink and navigating elsewhere.</p>
+
+                <h3>In React</h3>
+                <pre><code>const data = await getProjects();
+
+setProjects(data);</code></pre>
+
+                <div class="important">
+                    <strong>Important:</strong> <code>await</code> can only be used inside an <code>async</code> function.
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <section>
+                <h2>Chapter 10: Import / Export</h2>
+                
+                <h3>export</h3>
+                <p>Makes a function or variable available to other JavaScript files.</p>
+                <pre><code>export function getProjects() {}</code></pre>
+                <p>Other files may import and use <code>getProjects()</code>.</p>
+            </section>
+
+            <hr class="divider">
+
+            <section>
+                <h2>Chapter 11: Conditional (Ternary) Operator</h2>
+                
+                <h3>Syntax</h3>
+                <pre><code>condition ? valueIfTrue : valueIfFalse</code></pre>
+
+                <h3>Example</h3>
+                <pre><code>task.completed ? "✓" : "○"</code></pre>
+
+                <p>This means: if <code>task.completed</code> is true, display <code>✓</code>; otherwise, display <code>○</code></p>
+            </section>
+
+            <!-- PART 2 -->
+            <div class="part-header" style="margin-top: 60px;">Part 2: React Fundamentals</div>
+
+            <section>
+                <h2>Chapter 1: React Components</h2>
+                
+                <p>A React functional component is simply a JavaScript function that returns JSX. The typical structure looks like:</p>
+
+                <pre><code>Imports
+
+function MyComponent() {
+
+    // State
+
+    // Effects
+
+    // Event handlers / helper functions
+
+    // JSX returned to React
+
+}
+
+export default MyComponent</code></pre>
+            </section>
+
+            <hr class="divider">
+
+            <section>
+                <h2>Chapter 2: JSX</h2>
+                
+                <p>JSX looks like HTML but allows JavaScript inside braces.</p>
+
+                <pre><code>&lt;p&gt;{projects[0].projectCode}&lt;/p&gt;</code></pre>
+            </section>
+
+            <hr class="divider">
+
+            <section>
+                <h2>Chapter 3: Props</h2>
+                
+                <p><em>To be completed</em></p>
+            </section>
+
+            <hr class="divider">
+
+            <section>
+                <h2>Chapter 4: State</h2>
+                
+                <pre><code>const [projects, setProjects] = useState([]);</code></pre>
+
+                <ul>
+                    <li>React remembers the current value of <code>projects</code></li>
+                    <li>Call <code>setProjects()</code> to replace it</li>
+                </ul>
+            </section>
+
+            <hr class="divider">
+
+            <section>
+                <h2>Chapter 5: useEffect</h2>
+                
+                <h3>Basic Usage</h3>
+                <pre><code>useEffect(() => {
+    fetch(...)
+        .then(...)
+}, []);</code></pre>
+
+                <p><strong>Think:</strong> Run this code once when the component first appears.</p>
+
+                <h3>With Dependencies</h3>
+                <pre><code>useEffect(() => {
+    // code to execute
+}, [selectedProject])</code></pre>
+
+                <h3>Database Trigger Analogy</h3>
+                <pre><code>CREATE OR REPLACE TRIGGER trg_project_change
+AFTER UPDATE OF project_code ON some_table
+FOR EACH ROW
+BEGIN
+    LoadTasks;
+END;</code></pre>
+
+                <p>This is conceptually similar to a database trigger.</p>
+
+                <h3>Conceptual Comparison</h3>
+                <ul>
+                    <li><strong>Database trigger:</strong> Executes when data changes in Oracle</li>
+                    <li><strong>useEffect:</strong> Executes when a piece of React state or a prop changes</li>
+                </ul>
+
+                <h3>Key Differences</h3>
+                <ul>
+                    <li>Oracle trigger → watches database data</li>
+                    <li>useEffect → watches React component state/props</li>
+                    <li><code>useState</code> is a bit like a package variable that React manages</li>
+                    <li><code>setState</code> (e.g., <code>setSelectedProject</code>) is the only supported way to change it</li>
+                    <li><code>useEffect</code> is React's mechanism for saying, "Now that this state has changed, execute this additional logic"</li>
+                </ul>
+
+                <h3>Technical Details</h3>
+                <p>Technically, <code>useEffect</code> doesn't watch for changes in the way a trigger continuously watches a table. React re-runs the component after state changes, compares the dependency array with its previous values, and if a dependency has changed, it runs the effect.</p>
+
+                <h3>Multiple useEffects</h3>
+                <p>A component can have more than one <code>useEffect</code>. This is encouraged when each effect has a different responsibility. For example, from the IPO prototype:</p>
+
+                <ul>
+                    <li><strong>Effect 1:</strong> Load projects when the page starts</li>
+                    <li><strong>Effect 2:</strong> Load tasks when the selected project changes</li>
+                </ul>
+            </section>
+
+            <hr class="divider">
+
+            <section>
+                <h2>Chapter 6: Optional Chaining (?.)</h2>
+                
+                <h3>Purpose</h3>
+                <p>Safely access a property when an object might be null or undefined.</p>
+
+                <h3>Example</h3>
+                <pre><code>selectedProject?.projectCode</code></pre>
+
+                <p>Which means: if <code>selectedProject</code> exists, return its <code>projectCode</code>; otherwise return <code>undefined</code>.</p>
+            </section>
+
+            <hr class="divider">
+
+            <section>
+                <h2>Chapter 7: State Ownership</h2>
+                
+                <ul>
+                    <li>A component should own the state that it is responsible for</li>
+                    <li>Child components receive state via props</li>
+                    <li>Child components notify parents of changes via callback functions (such as <code>onProjectSelected</code>)</li>
+                </ul>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 JavaScript & React for PL/SQL Developers. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
