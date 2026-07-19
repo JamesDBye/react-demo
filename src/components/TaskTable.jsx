@@ -1,4 +1,4 @@
-function TaskTable({ tasks, selectedProject }) {
+function TaskTable({ tasks, selectedProject, onExecuteTask , executingTaskId}) {
 
     // Find the first incomplete task, which is the next task that can be executed.
     const nextTaskIndex = tasks.findIndex(task => !task.completed);
@@ -39,8 +39,10 @@ function TaskTable({ tasks, selectedProject }) {
                                Then disable the button unless this row is the next executable task.
                             */}
                             {!task.completed && (
-                                <button disabled={index !== nextTaskIndex}>
-                                    Execute
+                                <button disabled={index !== nextTaskIndex} onClick={() => onExecuteTask(task)}>
+                                        {executingTaskId === task.taskId
+                                            ? "Executing..."
+                                            : "Execute"}
                                 </button>
                             )}
                         </td>

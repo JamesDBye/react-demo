@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import ProjectTable from './components/ProjectTable'
 import TaskTable from './components/TaskTable'
-import { getProjects, getTasks } from './services/api'
+import { getProjects, getTasks, addEligiblePortfolios } from './services/api'
 
 function App() {
   // State variable containing the array of projects returned by the backend.
@@ -14,6 +14,9 @@ function App() {
 
   // State variable containing the array of tasks returned by the backend.
   const [tasks, setTasks] = useState([]);
+
+  // State variable to track the ID of the task currently being executed in TaskTable
+  const [executingTaskId, setExecutingTaskId] = useState(null);
 
   // useEffect hook to load projects when the component mounts.
   useEffect(() => {
@@ -48,6 +51,16 @@ useEffect(() => {
 //
 }, [selectedProject]);
 
+  //
+  async function handleExecuteTask(task) {
+
+      setExecutingTaskId(task.taskId);
+
+      await addEligiblePortfolios(selectedProject.projectCode);
+
+      setExecutingTaskId(null);
+  }
+
 //debug
 console.log(tasks);
 
@@ -71,6 +84,8 @@ console.log(tasks);
       <TaskTable 
         tasks={tasks} 
         selectedProject={selectedProject}
+        onExecuteTask={handleExecuteTask}
+        executingTaskId={executingTaskId}
       />
 
     </>
