@@ -48,21 +48,56 @@ useEffect(() => {
     }
     // Immediately invoke the async function to load tasks for the selected project.
     loadTasks();
-//
+
 }, [selectedProject]);
 
-  //
   async function handleExecuteTask(task) {
 
-      setExecutingTaskId(task.taskId);
+    setExecutingTaskId(task.taskId);
 
-      await addEligiblePortfolios(selectedProject.projectCode);
+    try {
+
+      switch (task.taskId) {
+
+        case 2:
+          await addEligiblePortfolios(
+            selectedProject.projectCode
+          );
+          break;
+
+        case 3:
+          await checkAvailableFunds(
+            selectedProject.projectCode
+          );
+          break;
+
+        case 5:
+          await scalebackCustomers(
+            selectedProject.projectCode
+          );
+          break;
+
+        default:
+          throw new Error(
+            `No execute action defined for task ${task.taskId}`
+          );
+      }
+
+      const updatedTasks =
+        await getTasks(selectedProject.projectCode);
+
+      setTasks(updatedTasks);
+
+    } catch (error) {
+
+      console.error("Failed to execute task:", error);
+
+    } finally {
 
       setExecutingTaskId(null);
-  }
 
-//debug
-console.log(tasks);
+    }
+  }
 
   return (
     <>

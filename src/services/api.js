@@ -24,5 +24,9 @@ export async function addEligiblePortfolios(projectCode) {
         }
     );
 
+    if (!response.ok) {
+        throw new Error(`Failed to add eligible portfolios: ${response.status}`);
+    }
+
     return response;
 }
