@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import ProjectTable from './components/ProjectTable'
 import TaskTable from './components/TaskTable'
-import { getProjects, getTasks, addEligiblePortfolios } from './services/api'
+import EligiblePortfolioReview from './components/EligiblePortfolioReview'
+import { getProjects, getTasks, addEligiblePortfolios, reviewEligiblePortfolios } from './services/api'
 
 function App() {
   // State variable containing the array of projects returned by the backend.
@@ -17,6 +18,12 @@ function App() {
 
   // State variable to track the ID of the task currently being executed in TaskTable
   const [executingTaskId, setExecutingTaskId] = useState(null);
+
+  // State variable to hold the eligible portfolio review data
+  const [eligiblePortfolioReview, setEligiblePortfolioReview] = useState([]);
+
+  // State variable to control the visibility of the eligible portfolio review dialog/modal
+  const [showEligiblePortfolioReview, setShowEligiblePortfolioReview] = useState(false);
 
   // useEffect hook to load projects when the component mounts.
   useEffect(() => {
@@ -33,32 +40,27 @@ function App() {
 //second useEffect hook to load tasks whenever the selected project changes.
 useEffect(() => {
 
-    // If no project is selected, don't attempt to load tasks.
-    if (selectedProject === null) {
-        return;
-    }
-    
-    async function loadTasks() {
+  // If no project is selected, don't attempt to load tasks.
+  if (selectedProject === null) {
+    return;
+  }
+  async function loadTasks() {
 
-        // Call the getTasks function from api.js, passing the selected project's code.
-        const data = await getTasks(selectedProject.projectCode);
+    // Call the getTasks function from api.js, passing the selected project's code.
+    const data = await getTasks(selectedProject.projectCode);
 
-        // Update the tasks state variable with the data returned from the backend.
-        setTasks(data);
-    }
-    // Immediately invoke the async function to load tasks for the selected project.
-    loadTasks();
-
+    // Update the tasks state variable with the data returned from the backend.
+    setTasks(data);
+  }
+  // Immediately invoke the async function to load tasks for the selected project.
+  loadTasks();
 }, [selectedProject]);
 
+  // New async function to handle the execution of tasks
   async function handleExecuteTask(task) {
-
     setExecutingTaskId(task.taskId);
-
     try {
-
       switch (task.taskId) {
-
         case 2:
           await addEligiblePortfolios(
             selectedProject.projectCode
@@ -89,13 +91,23 @@ useEffect(() => {
       setTasks(updatedTasks);
 
     } catch (error) {
-
       console.error("Failed to execute task:", error);
-
     } finally {
-
       setExecutingTaskId(null);
+    }
+  }
 
+  //new async function to handle the review of eligible portfolios
+  async function handleReviewTask(task) {
+    try {
+      const reviewData =
+        await reviewEligiblePortfolios(selectedProject.projectCode);
+
+      setEligiblePortfolioReview(reviewData);
+      setShowEligiblePortfolioReview(true);
+
+    } catch (error) {
+      console.error("Failed to review eligible portfolios:", error);
     }
   }
 
@@ -120,7 +132,14 @@ useEffect(() => {
         tasks={tasks} 
         selectedProject={selectedProject}
         onExecuteTask={handleExecuteTask}
+        onReviewTask={handleReviewTask}
         executingTaskId={executingTaskId}
+      />
+
+      <EligiblePortfolioReview
+          reviewData={eligiblePortfolioReview}
+          isOpen={showEligiblePortfolioReview}
+          onClose={() => setShowEligiblePortfolioReview(false)}
       />
 
     </>

@@ -30,3 +30,19 @@ export async function addEligiblePortfolios(projectCode) {
 
     return response;
 }
+
+export async function reviewEligiblePortfolios(projectCode) {
+    const response = await fetch(
+        `http://localhost:8080/windmill/projects/${projectCode}/eligible-portfolios/review`
+    );
+
+    if (!response.ok) {
+        throw new Error(
+            `Failed to review eligible portfolios: ${response.status}`
+        );
+    }
+
+    const data = await response.json();
+
+    return data;
+}
