@@ -1,3 +1,4 @@
+```mermaid
 flowchart TD
     App["App"]
 
@@ -70,3 +71,4 @@ flowchart TD
     EPRBody --> EPRRow
     EPRRow --> EPRCell
     Dialog --> CloseBtn
+```
